@@ -21,4 +21,7 @@ class Hooks < Redmine::Hook::ViewListener
     end
     render_on :view_my_account,
       :partial => 'account_form'
+      
+    #render_on :view_settings_general_form,
+     # :partial => 'settings_general_form'
 end
