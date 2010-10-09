@@ -1,3 +1,4 @@
 # English strings go here for Rails i18n
 en:
   field_freshbooks_api_key: "Freshbooks API key"
+  field_freshbooks_project: "Freshbooks Project"
