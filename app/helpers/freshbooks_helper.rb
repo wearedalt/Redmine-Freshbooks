@@ -1,0 +1,2 @@
+module FreshbooksHelper
+end

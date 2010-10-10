@@ -11,14 +11,12 @@ class Hooks < Redmine::Hook::ViewListener
        
        Rails.logger.debug "Activity Id: " + entry.activity_id.to_s
        
-       
-         
-       
-         Rails.logger.debug "Issue: " + related_issue.subject
+       Rails.logger.debug "Issue: " + related_issue.subject
        end
        
        Rails.logger.debug "DONE"
     end
+    
     render_on :view_my_account,
       :partial => 'account_form'
       

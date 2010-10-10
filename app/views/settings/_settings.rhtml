@@ -1,3 +1,4 @@
 <p><label>Freshbooks Domain</label><%= text_field_tag 'settings[freshbooks_domain]', @settings['freshbooks_domain'] %></p>
-
 <em><%= l(:text_comma_separated) %></em></p>
+
+<p><%= link_to "Sync with Freshbooks Data", {:controller => :freshbooks, :action => 'sync'} %></p>

@@ -1,14 +1,14 @@
 require 'redmine'
 require 'ruby-freshbooks'
 require 'redmine_freshbooks'
-require 'projects_controller_patch'
+require 'project_patch'
 require 'dispatcher'
 Dispatcher.to_prepare :redmine_freshbooks do
-  require_dependency 'issue'
+  require_dependency 'project'
   # Guards against including the module multiple time (like in tests)
   # and registering multiple callbacks
-  unless ProjectsController.included_modules.include? RedmineFreshbooks::ProjectsControllerPatch
-    ProjectsController.send(:include, RedmineFreshbooks::ProjectsControllerPatch)
+  unless Project.included_modules.include? RedmineFreshbooks::ProjectPatch
+    Project.send(:include, RedmineFreshbooks::ProjectPatch)
   end
 end
 
