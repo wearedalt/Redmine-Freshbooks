@@ -1,3 +1,3 @@
-= freshbooks
+= Redmine-Freshbooks
 
-Description goes here
+Redmine-Freshbooks integrates Freshbooks timelogging into Redmine. It allows for time entered into the time log in Redmine to be synced to a company Freshbooks account. Staff assignments are adhered to so that only those assigned to the Freshbooks project can enter time.  It will not prevent time from being entered
