@@ -2,3 +2,4 @@
 field_freshbooks_api_key: "Freshbooks API key"
 field_freshbooks_project: "Freshbooks Project"
 field_log_to_freshbooks: "Send Hours Logged to Freshbooks"
+field_send_to_freshbooks: "Send Hours to Freshbooks"

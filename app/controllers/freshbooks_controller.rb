@@ -47,7 +47,7 @@ class FreshbooksController < ApplicationController
       staff_hash.delete 'last_login'
       staff_hash.delete 'signup_date'
       staff_hash.delete 'number_of_logins'
-      staff = FreshbooksStaffMember.find_by_staff_id staff_hash['staff_hash']
+      staff = FreshbooksStaffMember.find_by_staff_id staff_hash['staff_id']
       
       if staff == nil
         staff = FreshbooksStaffMember.new staff_hash
