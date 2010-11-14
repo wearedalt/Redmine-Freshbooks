@@ -23,8 +23,7 @@ module RedmineFreshbooks
       module InstanceMethods
         def before_save_with_assign_freshbooks_staff_member
           before_save_without_assign_freshbooks_staff_member
-          
-          if self.freshbooks_api_key
+          if (!self.freshbooks_api_key.nil? &&  !self.freshbooks_api_key.empty?)
             client = RedmineFreshbooks.freshbooks_client
             staff_hash =  client.staff.current['staff']
 

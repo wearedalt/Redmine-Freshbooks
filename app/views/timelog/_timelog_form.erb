@@ -1,1 +1,5 @@
-<p><%=form.check_box :send_to_freshbooks%></p>
+<p><%=form.check_box :send_to_freshbooks, :disabled => !@time_entry.freshbooks_project_permitted%>
+<% unless @time_entry.freshbooks_project_permitted %>
+<em><%=l('no_freshbooks_permissions_on_project')%></em>
+<% end %>
+</p>
