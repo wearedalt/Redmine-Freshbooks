@@ -5,3 +5,4 @@ en:
   field_log_to_freshbooks: "Send Hours Logged to Freshbooks"
   field_send_to_freshbooks: "Send Hours to Freshbooks"
   no_freshbooks_permissions_on_project: "You do not have permission to send hours to Freshbooks.  Have your Freshbook's administrator allow you access to this project in Freshbooks.  This will not prevent you from logging hours in Redmine"
+  freshbooks_api_key_not_set: "You have not entered your Freshbooks API key in your account settings."
