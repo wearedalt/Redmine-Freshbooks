@@ -23,21 +23,28 @@ module RedmineFreshbooks
       module InstanceMethods
         def before_save_with_assign_freshbooks_staff_member
           before_save_without_assign_freshbooks_staff_member
-          if (!self.freshbooks_api_key.nil? &&  !self.freshbooks_api_key.empty?)
-            client = RedmineFreshbooks.freshbooks_client
-            staff_hash =  client.staff.current['staff']
 
-            staff = FreshbooksStaffMember.find_by_staff_id staff_hash['staff_id']
-            if staff.nil?
-              Rails.logger.debug "No Staff"
-              staff_hash.delete 'code'
-              staff_hash.delete 'last_login'
-              staff_hash.delete 'signup_date'
-              staff_hash.delete 'number_of_logins'
-              staff = FreshbooksStaffMember.new staff_hash
-              staff.save
+          #if the current user is saving changes on their record
+          if User.current.name == self.name
+
+            if self.freshbooks_api_key_changed? 
+              unless self.freshbooks_api_key.nil? ||  self.freshbooks_api_key.empty?
+                client = RedmineFreshbooks.freshbooks_client
+                staff_hash =  client.staff.current['staff']
+                staff = FreshbooksStaffMember.find_by_staff_id staff_hash['staff_id']
+
+                if staff.nil?
+                  staff_hash.delete 'code'
+                  staff_hash.delete 'last_login'
+                  staff_hash.delete 'signup_date'
+                  staff_hash.delete 'number_of_logins'
+                  staff = FreshbooksStaffMember.new staff_hash
+                  staff.save
+                end
+                
+                self.freshbooks_staff_member = staff
+              end
             end
-            self.freshbooks_staff_member = staff
           end
         end
       end
