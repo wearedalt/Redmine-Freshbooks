@@ -132,11 +132,7 @@ class FreshbooksController < ApplicationController
       else
         proj.update_attributes project_hash
       end
-      project_hash['freshbooks_staff_members'].each do |member|
-        proj.freshbooks_staff_members.push member
-      end
       
-      proj.save
       
     end
     
