@@ -3,7 +3,7 @@ class Hooks < Redmine::Hook::ViewListener
       Rails.logger.debug "DEBUG"
       entry = context[:time_entry]
        if entry.issue_id?
-         if entry.send_to_freshbooks.to_i == 1
+         if entry.send_to_freshbooks == true
            related_issue = Issue.find entry.issue_id
            Rails.logger.debug "Spent on: " + entry.spent_on.to_s
 

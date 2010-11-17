@@ -4,6 +4,7 @@ class FreshbooksController < ApplicationController
   def sync
     @client = RedmineFreshbooks.freshbooks_client
     import_tasks
+    sync_tasks_and_activities
     import_staff
     import_projects
     
@@ -13,6 +14,24 @@ class FreshbooksController < ApplicationController
   
   private
   
+    def sync_tasks_and_activities
+      tasks = FreshbooksTask.all
+      max_position = Enumeration.find_by_type('TimeEntryActivity', :order => 'position DESC', :limit => 1).position
+      tasks.each do |task|
+        act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, nil
+        unless act
+          max_position += 1
+          act = Enumeration.new
+          act.position = max_position
+          act.type = 'TimeEntryActivity'
+          act.name = task.name
+          act.active = false
+          act.save
+        end
+      end
+      
+    end
+    
     def import_staff
       staff = @client.staff.list['staff_members']['member']
       if staff.kind_of? Array
