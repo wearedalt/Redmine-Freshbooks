@@ -3,16 +3,18 @@ class Hooks < Redmine::Hook::ViewListener
       Rails.logger.debug "DEBUG"
       entry = context[:time_entry]
        if entry.issue_id?
-       related_issue = Issue.find entry.issue_id
-       Rails.logger.debug "Spent on: " + entry.spent_on.to_s
-       Rails.logger.debug "Send to Freshbooks: " + entry.send_to_freshbooks.to_s
-       Rails.logger.debug "Hours: " + entry.hours.to_s
-       Rails.logger.debug "Comments: " + entry.comments.to_s
-       Rails.logger.debug "Issue Id: " + entry.issue_id.to_s
+         if entry.send_to_freshbooks.to_i == 1
+           related_issue = Issue.find entry.issue_id
+           Rails.logger.debug "Spent on: " + entry.spent_on.to_s
+
+           Rails.logger.debug "Hours: " + entry.hours.to_s
+           Rails.logger.debug "Comments: " + entry.comments.to_s
+           Rails.logger.debug "Issue Id: " + entry.issue_id.to_s
        
-       Rails.logger.debug "Activity Id: " + entry.activity_id.to_s
+           Rails.logger.debug "Activity Id: " + entry.activity_id.to_s
        
-       Rails.logger.debug "Issue: " + related_issue.subject
+           Rails.logger.debug "Issue: " + related_issue.subject
+        end
        end
        
        Rails.logger.debug "DONE"
