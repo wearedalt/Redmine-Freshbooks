@@ -3,11 +3,9 @@ class FreshbooksController < ApplicationController
 
   def sync
     @client = RedmineFreshbooks.freshbooks_client
-    import_tasks
-    sync_tasks_and_activities
     import_staff
     import_projects
-    
+    sync_tasks_and_activities
     flash[:notice] = "Sync successful"
     redirect_to :controller => 'settings', :action => 'plugin', :id => 'redmine_freshbooks'
   end
@@ -16,16 +14,24 @@ class FreshbooksController < ApplicationController
   
     def sync_tasks_and_activities
       tasks = FreshbooksTask.all
-      max_position = Enumeration.find_by_type('TimeEntryActivity', :order => 'position DESC', :limit => 1).position
+      activities = Enumeration.all(:conditions => "project_id is not null and type = 'TimeEntryActivity'")
+      activities.each do |activity|
+        activity.active = false
+        activity.save
+      end
+      max_position = Enumeration.find_by_type('TimeEntryActivity', :order => 'position').position
       tasks.each do |task|
-        act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, nil
-        unless act
-          max_position += 1
-          act = Enumeration.new
-          act.position = max_position
-          act.type = 'TimeEntryActivity'
-          act.name = task.name
-          act.active = false
+        task.freshbooks_projects.each do |project|
+          act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, project.id
+          unless act
+            max_position += 1
+            act = Enumeration.new
+            act.position = max_position
+            act.type = 'TimeEntryActivity'
+            act.name = task.name
+            act.project_id = project.id
+          end
+          act.active = true
           act.save
         end
       end
@@ -62,12 +68,16 @@ class FreshbooksController < ApplicationController
       end
     end
     
-    def import_tasks
+    def import_tasks(project)
       curr_page = 0
       pages = 1
 
       while curr_page != pages
-        tasks_set = @client.task.list(:page => curr_page+1, :per_page => 15)['tasks']
+        if(project)
+          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 15)['tasks']
+        else
+          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 15)['tasks']
+        end
         pages = tasks_set['pages'].to_i
         curr_page = tasks_set['page'].to_i
 
@@ -75,17 +85,17 @@ class FreshbooksController < ApplicationController
 
         if tasks.kind_of? Array
           tasks.each do |task_hash|
-            add_task_from_hash task_hash
+            add_task_from_hash task_hash, project
           end
         else
-          add_task_from_hash tasks
+          add_task_from_hash tasks, project
         end
       end
     end
     
     
     
-    def add_task_from_hash(task_hash)
+    def add_task_from_hash(task_hash, project)
       task = FreshbooksTask.find_by_task_id task_hash['task_id']
       
       if task == nil
@@ -93,6 +103,10 @@ class FreshbooksController < ApplicationController
         task.save
       else
         task.update_attributes task_hash
+      end
+      
+      unless project.freshbooks_tasks.include? task
+        project.freshbooks_tasks<< task
       end
     end
     
@@ -128,11 +142,12 @@ class FreshbooksController < ApplicationController
       proj = FreshbooksProject.find_by_project_id project_hash['project_id']
       if proj == nil
         proj = FreshbooksProject.new project_hash
-        proj.save
+        proj.save!
       else
         proj.update_attributes project_hash
       end
-      
+      proj.freshbooks_tasks.clear
+      import_tasks(proj)
       
     end
     
