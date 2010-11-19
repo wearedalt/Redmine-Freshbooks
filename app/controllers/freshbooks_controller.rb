@@ -21,18 +21,23 @@ class FreshbooksController < ApplicationController
       end
       max_position = Enumeration.find_by_type('TimeEntryActivity', :order => 'position').position
       tasks.each do |task|
-        task.freshbooks_projects.each do |project|
-          act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, project.id
-          unless act
-            max_position += 1
-            act = Enumeration.new
-            act.position = max_position
-            act.type = 'TimeEntryActivity'
-            act.name = task.name
-            act.project_id = project.id
+        task.freshbooks_projects.each do |fb_project|
+          if fb_project.project
+            project = fb_project.project
+
+            act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, project.id
+
+            unless act
+              max_position += 1
+              act = Enumeration.new
+              act.position = max_position
+              act.type = 'TimeEntryActivity'
+              act.name = task.name
+              act.project_id = project.id
+            end
+            act.active = true
+            act.save!
           end
-          act.active = true
-          act.save
         end
       end
       
@@ -52,7 +57,7 @@ class FreshbooksController < ApplicationController
       pages = 1
 
       while curr_page != pages
-        projects_set = @client.project.list(:page => curr_page+1, :per_page => 15)['projects']
+        projects_set = @client.project.list(:page => curr_page+1, :per_page => 100)['projects']
         pages = projects_set['pages'].to_i
         curr_page = projects_set['page'].to_i
 
@@ -74,9 +79,9 @@ class FreshbooksController < ApplicationController
 
       while curr_page != pages
         if(project)
-          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 15)['tasks']
+          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 100, :project_id => project.project_id)['tasks']
         else
-          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 15)['tasks']
+          tasks_set = @client.task.list(:page => curr_page+1, :per_page => 100)['tasks']
         end
         pages = tasks_set['pages'].to_i
         curr_page = tasks_set['page'].to_i
