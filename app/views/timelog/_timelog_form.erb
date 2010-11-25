@@ -1,4 +1,7 @@
 <p><%=form.check_box :send_to_freshbooks, :disabled => !@time_entry.freshbooks_project_permitted%>
+<% if @time_entry.freshbooks_project_permitted && @time_entry.is_editing && @time_entry.freshbooks_time_entry_id.nil? %>
+	<em><%=l('no_freshbooks_time_entry')%></em>
+<% end %>
 <% unless @time_entry.freshbooks_project_permitted %>
 	<% if User.current.freshbooks_api_key.nil? || User.current.freshbooks_api_key.empty? %>
 		<em><%=l('freshbooks_api_key_not_set')%></em>
