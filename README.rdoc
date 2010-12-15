@@ -4,6 +4,7 @@ Redmine-Freshbooks integrates Freshbooks timelogging into Redmine. It allows for
 
 == Configuration
 
+ 0. gem install ruby-freshbooks
  1. cd {#Redmine_Rails_Root}/vendors/plugins
  2. git clone git://github.com/phsr/Redmine-Freshbooks.git
  3. rake db:migrate_plugins
