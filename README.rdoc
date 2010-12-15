@@ -1,3 +1,19 @@
 = Redmine-Freshbooks
 
-Redmine-Freshbooks integrates Freshbooks timelogging into Redmine. It allows for time entered into the time log in Redmine to be synced to a company Freshbooks account. Staff assignments are adhered to so that only those assigned to the Freshbooks project can enter time.  It will not prevent time from being entered
+Redmine-Freshbooks integrates Freshbooks timelogging into Redmine. It allows for time entered into the time log in Redmine to be synced to a company Freshbooks account. Staff assignments are adhered to so that only those assigned to the Freshbooks project can enter time.  It will not prevent time from being entered into Redmine if the user has permission in Redmine to log time.
+
+== Configuration
+
+ 1. cd {#Redmine_Rails_Root}/vendors/plugins
+ 2. git clone git://github.com/phsr/Redmine-Freshbooks.git
+ 3. rake db:migrate_plugins
+ 4. Log into Redmine and proceed to the Redmine FreshBooks settings page, via the plugin settings page.
+ 5. Enable Redmine FreshBooks and enter the domain where your FreshBooks endpoint resides.
+ 6. Go to your account settings and enter your FreshBooks API key.
+ 7. If you're an admin on the FreshBooks account (otherwise, have a FreshBooks admin perform this step), return to the Redmine FreshBooks settings page and click "Sync with FreshBooks".  This may take a few minutes, as it will pull down all your project, staff and task information.
+ 8. Go to the project that you want to sync with FreshBooks and select the corresponding FreshBooks Project from the drop down.
+ 9. Log your time in Redmine and see it logged to FreshBooks!
+
+== Notes
+
+Currently, if a time log entry is deleted in Redmine, it will *not* be deleted from FreshBooks. 

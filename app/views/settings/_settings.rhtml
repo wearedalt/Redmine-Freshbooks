@@ -1,4 +1,9 @@
+<p><label>Enabled</label>
+<%= select_tag 'settings[freshbooks_enabled]',
+ 	options_for_select([
+	                    ["No", 'no'],
+	                    ["Yes", 'yes']], @settings['freshbooks_enabled'])%></p>
 <p><label>Freshbooks Domain</label><%= text_field_tag 'settings[freshbooks_domain]', @settings['freshbooks_domain'] %></p>
-<em><%= l(:text_comma_separated) %></em></p>
 
 <p><%= link_to "Sync with Freshbooks Data", {:controller => :freshbooks, :action => 'sync'} %></p>
+<p><em>Run this step as a FreshBooks admin, otherwise, not all FreshBooks data will be retrieved</em></p>

@@ -1,2 +1,5 @@
+<% if(Setting["plugin_redmine_freshbooks"]['freshbooks_enabled'] == 'yes') %>
 <p><%= form.text_field :freshbooks_api_key %></p>
 <p><%= form.check_box :log_to_freshbooks%></p>
+<p><em>If checked, this will check the "Send to FreshBooks" checkbox on the Log Hours form.</em></p>
+<% end %>

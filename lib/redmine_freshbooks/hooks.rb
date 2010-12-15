@@ -1,5 +1,6 @@
 class Hooks < Redmine::Hook::ViewListener
     def controller_timelog_edit_before_save(context={ })
+      if(Setting["plugin_redmine_freshbooks"]['freshbooks_enabled'] == 'yes') 
        context[:time_entry].send_to_freshbooks = false
        context[:time_entry].freshbooks_project_permitted = false
        context[:time_entry].is_editing = true
@@ -10,6 +11,7 @@ class Hooks < Redmine::Hook::ViewListener
            context[:time_entry].send_to_freshbooks = User.current.log_to_freshbooks && context[:time_entry].freshbooks_project_permitted
          end
        end
+     end
     end
     
     

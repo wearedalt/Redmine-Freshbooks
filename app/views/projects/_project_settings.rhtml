@@ -1,1 +1,3 @@
+<% if(Setting["plugin_redmine_freshbooks"]['freshbooks_enabled'] == 'yes') %>
 <p><%= form.select :freshbooks_project_id, FreshbooksProject.all.collect {|p| [ p.name, p.id ] },  {:include_blank => 'None'} %></p>
+<%end%>

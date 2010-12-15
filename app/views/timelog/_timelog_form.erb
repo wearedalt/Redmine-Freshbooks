@@ -1,3 +1,4 @@
+<% if(Setting["plugin_redmine_freshbooks"]['freshbooks_enabled'] == 'yes') %>
 <p><%=form.check_box :send_to_freshbooks, :disabled => !@time_entry.freshbooks_project_permitted%>
 <% if @time_entry.freshbooks_project_permitted && @time_entry.is_editing && @time_entry.freshbooks_time_entry_id.nil? %>
 	<em><%=l('no_freshbooks_time_entry')%></em>
@@ -10,3 +11,4 @@
 	<% end %>
 <% end %>
 </p>
+<% end %>
