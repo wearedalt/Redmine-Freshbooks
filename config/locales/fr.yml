@@ -1,0 +1,8 @@
+fr:
+  field_freshbooks_api_key: "FreshBooks API key"
+  field_freshbooks_project: "Projet correspondant dans FreshBooks"
+  field_log_to_freshbooks: "Envoyer les heures saisies vers FreshBooks"
+  field_send_to_freshbooks: "Enregistrer les heures dans FreshBooks"
+  no_freshbooks_permissions_on_project: "Vous n'avez pas la permission de saisir du temps dans ce projet FreshBooks.  Demandez à votre administrateur Freshbooks de vous donner accès à ce projet. Vous pouvez tout de même saisir vos temps dans Redmine"
+  freshbooks_api_key_not_set: "Vous n'avez pas précisé votre Freshbooks API key dans votre compte"
+  no_freshbooks_time_entry: "Cette saisie de temps n'était pas encore présente dans Freshbooks. Si vous choisissez de saisir du temps maintenant, une nouvelle saisie sera également faite FreshBooks."
