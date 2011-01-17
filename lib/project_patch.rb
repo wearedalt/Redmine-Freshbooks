@@ -1,4 +1,4 @@
-require_dependency 'project'
+#require_dependency 'project'
 
 module RedmineFreshbooks
   module ProjectPatch

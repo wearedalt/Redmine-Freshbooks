@@ -1,3 +1,4 @@
+require_dependency 'principal'
 require_dependency 'user'
 
 module RedmineFreshbooks

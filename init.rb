@@ -1,3 +1,16 @@
+require_dependency 'vendor/plugins/acts_as_customizable/init'
+require_dependency 'vendor/plugins/acts_as_list/init'
+require_dependency 'vendor/plugins/acts_as_event/init'
+require_dependency 'vendor/plugins/acts_as_activity_provider/init'
+require_dependency 'vendor/plugins/acts_as_searchable/init'
+require_dependency 'vendor/plugins/awesome_nested_set/init'
+require_dependency 'vendor/plugins/acts_as_attachable/init'
+require_dependency 'vendor/plugins/acts_as_watchable/init'
+
+require_dependency 'issue'
+require_dependency 'changeset'
+
+
 require 'redmine'
 require 'ruby-freshbooks'
 require 'redmine_freshbooks'
