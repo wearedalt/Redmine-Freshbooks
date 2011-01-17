@@ -5,7 +5,7 @@ class CreateFreshbooksStaffMembers < ActiveRecord::Migration
       t.column :staff_id, :int
       t.column :country, :string
       t.column :street1, :string
-      t.column :username, :sring
+      t.column :username, :string
       t.column :rate, :decimal, :precision => 15, :scale => 2
       t.column :street2, :string
       t.column :business_phone, :string
