@@ -58,7 +58,8 @@ module RedmineFreshbooks
           activity = Enumeration.find self.activity_id
           task = FreshbooksTask.find_by_name activity.name
           new_time_entry_hash[:project_id] = related_issue.project.freshbooks_project.project_id
-          new_time_entry_hash[:notes] = "Issue #" + self.issue_id.to_s + ": " + self.comments
+          new_time_entry_hash[:notes] = "#" + self.issue_id.to_s + " \"#{self.issue.subject}\""
+          new_time_entry_hash[:notes] << " - #{self.comments}" if self.comments
           new_time_entry_hash[:task_id] = task.task_id
 
           client = RedmineFreshbooks.freshbooks_client
@@ -83,7 +84,8 @@ module RedmineFreshbooks
                   new_time_entry_hash[:date] = self.spent_on.strftime('%Y-%m-%d')
                 end
                 if self.issue_id_changed? || self.comments_changed?
-                  new_time_entry_hash[:notes] = "Issue #" + self.issue_id.to_s + ": " + self.comments
+                  new_time_entry_hash[:notes] = "#" + self.issue_id.to_s + " \"#{self.issue.subject}\""
+                  new_time_entry_hash[:notes] << " - #{self.comments}" if self.comments
                 end
                 if self.activity_id_changed?
                   activity = Enumeration.find self.activity_id
