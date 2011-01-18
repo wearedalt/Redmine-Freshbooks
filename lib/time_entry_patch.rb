@@ -34,8 +34,14 @@ module RedmineFreshbooks
               @send_to_freshbooks = User.current.log_to_freshbooks && @freshbooks_project_permitted
             end
           end
+          # pre-select the activity wich matches the issue's tracker name
+          if self.activity_id.nil?
+            displayed_activities = Enumeration.find_all_by_type_and_project_id_and_active 'TimeEntryActivity', project.id, true
+            tracker_name = self.issue.tracker.name if self.issue
+            preselected_activity = displayed_activities.select{|act| !act.name.match(tracker_name).nil?}.first if tracker_name
+            self.activity_id = preselected_activity.id if preselected_activity
+          end
           after_initialize_without_set_send_to_freshbooks
-          
         end
         
         def send_new_entry_to_freshbooks
