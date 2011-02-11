@@ -143,6 +143,10 @@ class FreshbooksController < ApplicationController
         project_hash['freshbooks_staff_members'].push staff_mem
       end
       project_hash.delete 'staff'
+      
+      # TODO: dirty : should store budget as well
+      project_hash.delete 'budget'
+      
       proj = FreshbooksProject.find_by_project_id project_hash['project_id']
       if proj == nil
         proj = FreshbooksProject.new project_hash
