@@ -147,6 +147,9 @@ class FreshbooksController < ApplicationController
       # TODO: dirty : should store budget as well
       project_hash.delete 'budget'
       
+      # TODO: dirty : they added the 'tasks' key, which should simplify the tasks import but here it makes the sync fail
+      project_hash.delete 'tasks'
+      
       proj = FreshbooksProject.find_by_project_id project_hash['project_id']
       if proj == nil
         proj = FreshbooksProject.new project_hash
