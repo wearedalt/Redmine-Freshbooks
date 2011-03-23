@@ -22,8 +22,7 @@ class FreshbooksController < ApplicationController
       max_position = Enumeration.find_by_type('TimeEntryActivity', :order => 'position').position
       tasks.each do |task|
         task.freshbooks_projects.each do |fb_project|
-          if fb_project.project
-            project = fb_project.project
+          fb_project.projects.each do |project|
 
             act = Enumeration.find_by_type_and_name_and_project_id 'TimeEntryActivity', task.name, project.id
 
@@ -40,7 +39,6 @@ class FreshbooksController < ApplicationController
           end
         end
       end
-      
     end
     
     def import_staff
@@ -151,6 +149,7 @@ class FreshbooksController < ApplicationController
       project_hash.delete 'tasks'
       
       proj = FreshbooksProject.find_by_project_id project_hash['project_id']
+      
       if proj == nil
         proj = FreshbooksProject.new project_hash
         proj.save!
