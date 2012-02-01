@@ -12,6 +12,7 @@ module RedmineFreshbooks
           unloadable # Send unloadable so it will not be unloaded in development
           belongs_to :freshbooks_project
           after_update :sync_freshbooks_project
+          safe_attributes 'freshbooks_project_id'
         end
 
       end

@@ -13,6 +13,7 @@ module RedmineFreshbooks
           unloadable # Send unloadable so it will not be unloaded in development
           has_one :freshbooks_staff_member
           alias_method_chain :before_save, :assign_freshbooks_staff_member
+          safe_attributes 'freshbooks_api_key', 'log_to_freshbooks'
         end
 
       end
