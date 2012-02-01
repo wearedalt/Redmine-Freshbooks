@@ -148,6 +148,9 @@ class FreshbooksController < ApplicationController
       # TODO: dirty : they added the 'tasks' key, which should simplify the tasks import but here it makes the sync fail
       project_hash.delete 'tasks'
       
+      # TODO: dirty : unknown attribute error
+      project_hash.delete 'project_manager_id'
+
       proj = FreshbooksProject.find_by_project_id project_hash['project_id']
       
       if proj == nil
